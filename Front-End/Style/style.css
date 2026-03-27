@@ -16,8 +16,19 @@ nav h3 {
 }
 
 nav a {
-    margin-left: 20px;
+    color: #7b7b75;
     padding-top: 20px;
+    text-decoration: none;
+}
+
+nav a:first-of-type {
+    margin-left: auto;
+}
+
+a:hover {
+    color: #1A1A18;
+    text-decoration: underline 2px;
+    text-underline-offset: 22px;
 }
 
 input {
@@ -26,7 +37,7 @@ input {
 }
 
 label {
-    color: #5A5A56;
+    color: #727269;
     font-size: 18px;
 }
 
