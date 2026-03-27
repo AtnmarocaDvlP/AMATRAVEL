@@ -1,0 +1,77 @@
+nav {
+    display: flex;
+    position: sticky;
+    top: 0;
+    margin: 0;
+    background-color: #ffffff;
+    border: 1px solid #d2c8b5;
+    padding-left: 30px;
+    padding-right: 30px;
+    gap: 20px;
+}
+
+nav h3 {
+    color: #1A1A18;
+    padding-left: 20px;
+}
+
+nav a {
+    margin-left: 20px;
+    padding-top: 20px;
+}
+
+input {
+    padding: 5px;
+    font-size: 15px;
+}
+
+label {
+    color: #5A5A56;
+    font-size: 18px;
+}
+
+button {
+    background-color: antiquewhite;
+    border-radius: 12px;
+    border: 1px solid #d2c8b5;
+    margin: 10px;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #d2c8b5;
+}
+
+button:active {
+    Background-color: #d2c8b5;
+}
+
+body {
+    margin: 0;
+    background-color: #f7f2e6;
+    font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+.Card_one {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #d2c8b5;
+    margin-left: 80px;
+    margin-right: 80px;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+h1 {
+    color: #1A1A18;
+    padding-left: 80px;
+    padding-top: 20px;
+
+}
+
+h2 {
+    color: #1A1A18;
+    padding-left: 80px;
+}
