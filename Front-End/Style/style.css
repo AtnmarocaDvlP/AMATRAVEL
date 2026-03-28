@@ -48,18 +48,44 @@ label {
     font-size: 18px;
 }
 
-button {
-    display: flex;
-    background-color: antiquewhite;
-    border-radius: 12px;
-    border: 1px solid #d2c8b5;
+.btn_editar {
+    color: rgb(47, 56, 48);
+    justify-content: center;
+    display: inline-flex;
+    background-color: rgb(182, 253, 188);
+    border-radius: 5px;
+    border: 1px solid rgb(47, 56, 48);
     margin-left: auto;
-    font-size: 20px;
+    font-size: 18px;
     transition: background-color 0.4s ease;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
-button:hover {
-    background-color: #d2c8b5;
+.btn_excluir {
+    color: rgb(73, 45, 42);
+    justify-content: center;
+    display: inline-flex;
+    background-color: rgb(227, 134, 134);
+    border-radius: 5px;
+    border: 1px solid rgb(73, 45, 42);
+    margin-left: auto;
+    font-size: 18px;
+    transition: background-color 0.4s ease;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.btn_editar:hover {
+    background-color: rgb(131, 189, 136);
+}
+
+.btn_excluir:hover {
+    background-color: rgb(214, 93, 93);
 }
 
 button:active {
