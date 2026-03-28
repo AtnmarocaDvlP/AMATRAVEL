@@ -19,6 +19,7 @@ nav a {
     color: #7b7b75;
     padding-top: 20px;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 nav a:first-of-type {
@@ -26,6 +27,12 @@ nav a:first-of-type {
 }
 
 a:hover {
+    color: #1A1A18;
+    text-decoration: underline 2px;
+    text-underline-offset: 22px;
+}
+
+nav a.ativo {
     color: #1A1A18;
     text-decoration: underline 2px;
     text-underline-offset: 22px;
@@ -47,6 +54,7 @@ button {
     border: 1px solid #d2c8b5;
     margin: 10px;
     font-size: 15px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
