@@ -4,7 +4,7 @@ nav {
     top: 0;
     margin: 0;
     background-color: #ffffff;
-    border: 1px solid #d2c8b5;
+    border: 2px solid #d2c8b5;
     padding-left: 30px;
     padding-right: 30px;
     gap: 20px;
@@ -19,7 +19,7 @@ nav a {
     color: #7b7b75;
     padding-top: 20px;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 nav a:first-of-type {
@@ -28,8 +28,8 @@ nav a:first-of-type {
 
 a:hover {
     color: #1A1A18;
-    text-decoration: underline 2px;
-    text-underline-offset: 22px;
+    transition: all 0.5s ease;
+    text-decoration: none;
 }
 
 nav a.ativo {
@@ -49,12 +49,13 @@ label {
 }
 
 button {
+    display: flex;
     background-color: antiquewhite;
     border-radius: 12px;
     border: 1px solid #d2c8b5;
-    margin: 10px;
-    font-size: 15px;
-    transition: background-color 0.3s ease;
+    margin-left: auto;
+    font-size: 20px;
+    transition: background-color 0.4s ease;
 }
 
 button:hover {
@@ -71,10 +72,10 @@ body {
     font-family: 'Bricolage Grotesque', sans-serif;
 }
 
-.Card_one {
+.Users {
     background-color: #ffffff;
     border-radius: 12px;
-    border: 1px solid #d2c8b5;
+    border: 2px solid #d2c8b5;
     margin-left: 80px;
     margin-right: 80px;
     padding: 20px;
@@ -90,7 +91,7 @@ h1 {
 
 }
 
-h2 {
-    color: #1A1A18;
+.subtitle {
+    color: #727269;
     padding-left: 80px;
 }
