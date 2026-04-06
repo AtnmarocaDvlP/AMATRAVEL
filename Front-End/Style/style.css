@@ -169,3 +169,138 @@ h1 {
     color: #727269;
     padding-left: 80px;
 }
+
+/* ===== MODAL ===== */
+
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 26, 24, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 2px solid #d2c8b5;
+    padding: 35px;
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    animation: modalEntrada 0.25s ease;
+}
+
+@keyframes modalEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal_header h2 {
+    margin: 0;
+    color: #1A1A18;
+    font-size: 22px;
+}
+
+.btn_fechar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #7b7b75;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease;
+}
+
+.btn_fechar:hover {
+    color: #1A1A18;
+}
+
+.modal_campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modal_campo input {
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 2px solid #d2c8b5;
+    border-radius: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    background-color: #faf8f3;
+    transition: border-color 0.2s ease;
+}
+
+.modal_campo input:focus {
+    outline: none;
+    border-color: #b7ae9e;
+    background-color: #ffffff;
+}
+
+.modal_buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.btn_salvar {
+    background-color: rgb(182, 253, 188);
+    color: rgb(47, 56, 48);
+    border: 1px solid rgb(47, 56, 48);
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    transition: background-color 0.2s ease;
+}
+
+.btn_salvar:hover {
+    background-color: rgb(116, 165, 120);
+}
+
+.btn_salvar:active {
+    background-color: rgb(88, 121, 91);
+}
+
+.btn_cancelar {
+    background-color: #f0ece3;
+    color: #1A1A18;
+    border: 1px solid #b7ae9e;
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    transition: background-color 0.2s ease;
+}
+
+.btn_cancelar:hover {
+    background-color: #d9d3c7;
+}
+
+.btn_cancelar:active {
+    background-color: #c5bfb3;
+}

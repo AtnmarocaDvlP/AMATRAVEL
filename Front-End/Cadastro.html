@@ -22,7 +22,34 @@
     <div class="subtitle">
         <h3> Gerencie seus passageiros e valores de corrida </h3>
     </div>
-    <button class="button_add"> Adicionar </button>
+    <button class="button_add" onclick="abrirModal()"> Adicionar </button>
+
+    <!-- Modal de Cadastro -->
+    <div id="modal_overlay" class="modal_overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal_header">
+                <h2>Novo Passageiro</h2>
+                <button class="btn_fechar" onclick="fecharModal()">✕</button>
+            </div>
+            <div class="modal_campo">
+                <label>Nome</label>
+                <input type="text" id="input_nome" placeholder="Nome completo">
+            </div>
+            <div class="modal_campo">
+                <label>Valor Ida (R$)</label>
+                <input type="number" id="input_ida" step="0.50" placeholder="0,00">
+            </div>
+            <div class="modal_campo">
+                <label>Valor Volta (R$)</label>
+                <input type="number" id="input_volta" step="0.50" placeholder="0,00">
+            </div>
+            <div class="modal_buttons">
+                <button class="btn_cancelar" onclick="fecharModal()">Cancelar</button>
+                <button class="btn_salvar">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="Lista_Pessoas"></div>
     <script>
         function criarCard(nome, ida, volta) {
@@ -49,6 +76,13 @@
             pessoas.forEach(p => criarCard(p.nome, p.valor_ida, p.valor_volta));
         }
         document.addEventListener("DOMContentLoaded", carregarPessoas);
+
+        function abrirModal() {
+            document.getElementById("modal_overlay").style.display = "flex";
+        }
+        function fecharModal() {
+            document.getElementById("modal_overlay").style.display = "none";
+        }
     </script>
 </body>
 
