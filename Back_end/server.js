@@ -18,6 +18,9 @@ db.connect(err => {  // retorno do banco quando testar conexão
     else console.log("Conectado ao MySQL!");
 });
 
+//------------------//Reconhecer pessoas no banco//---------------//
+
+
 app.get("/pessoas", (req, res) => { // quando acessado, rodar essa function
     db.query("SELECT * FROM pessoa WHERE ativo = 1", (err, resultado) => {
         if (err) return res.status(500).json({ erro: err });
@@ -27,4 +30,19 @@ app.get("/pessoas", (req, res) => { // quando acessado, rodar essa function
 
 app.listen(3000, () => { // inicia o servidor na porta 3000
     console.log("Servidor rodando em http://localhost:3000");
+});
+
+
+//------------------//Cadastro de pessoas no banco//--------------//
+
+app.post("/pessoas", (req, res) => { // quando acessado, rodar essa function de informar o banco os novos cadastros
+    const { nome, ida, volta } = req.body;
+    db.query(
+        "INSERT INTO pessoa (nome, valor_ida, valor_volta, ativo) VALUES (?, ?, ?, 1)",
+        [nome, ida, volta],
+        (err, resultado) => {
+            if (err) return res.status(500).json({ erro: err });
+            res.json({ id: resultado.insertId });
+        }
+    );
 });

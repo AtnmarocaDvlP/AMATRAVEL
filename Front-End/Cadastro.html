@@ -45,7 +45,7 @@
             </div>
             <div class="modal_buttons">
                 <button class="btn_cancelar" onclick="fecharModal()">Cancelar</button>
-                <button class="btn_salvar">Salvar</button>
+                <button class="btn_salvar" onclick="salvarPessoa()">Salvar</button>
             </div>
         </div>
     </div>
@@ -82,6 +82,20 @@
         }
         function fecharModal() {
             document.getElementById("modal_overlay").style.display = "none";
+        }
+
+        async function salvarPessoa() {
+            const nome = document.getElementById("input_nome").value;
+            const ida = document.getElementById("input_ida").value;
+            const volta = document.getElementById("input_volta").value;
+            await fetch("http://localhost:3000/pessoas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nome, ida, volta })
+            });
+            fecharModal();
+            document.getElementById("Lista_Pessoas").innerHTML = "";
+            carregarPessoas();
         }
     </script>
 </body>
