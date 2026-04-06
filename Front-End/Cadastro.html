@@ -47,6 +47,33 @@
             </div>
         </div>
     </div>
+    <div id="Lista_Pessoas"></div>
+    <script>
+        function criarCard(nome, ida, volta) {
+            const lista = document.getElementById("Lista_Pessoas");
+            const card = document.createElement("div");
+            card.className = "Users";
+            card.innerHTML = `
+            <div class="user_card">
+                <div class="user_text">
+                    <h3>${nome}</h3>
+                    <p>Ida: R$ ${ida} · Volta: R$ ${volta}</p>
+                </div>
+                <div class="container_button">
+                    <button class="btn_editar">Editar</button>
+                    <button class="btn_excluir">Excluir</button>
+                </div>
+            </div>
+        `;
+            lista.appendChild(card);
+        }
+        async function carregarPessoas() {
+            const resposta = await fetch("http://localhost:3000/pessoas");
+            const pessoas = await resposta.json();
+            pessoas.forEach(p => criarCard(p.nome, p.valor_ida, p.valor_volta));
+        }
+        document.addEventListener("DOMContentLoaded", carregarPessoas);
+    </script>
 </body>
 
 </html>
