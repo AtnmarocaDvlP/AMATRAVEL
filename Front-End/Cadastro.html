@@ -67,7 +67,7 @@
                 </div>
                 <div class="container_button">
                     <button class="btn_editar" onclick="editarpessoa(${id}, '${nome}', ${ida}, ${volta})">Editar</button>
-                    <button class="btn_excluir">Excluir</button>
+                    <button class="btn_excluir" onclick="ExcluirPessoa(${id})">Excluir</button>
                 </div>
             </div>
         `;
@@ -103,14 +103,14 @@
 
             if (editandopessoa) {
                 // if para caso eu esteja editando -> usa o PUT
-                await fetch(`/pessoas/${editandopessoa}`, {
+                await fetch(`http://localhost:3000/pessoas/${editandopessoa}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nome, ida, volta })
                 });
             } else {
-                // else para caso eu esteja cadastrando -> Usa o ROt
-                await fetch("/pessoas", {
+                // else para caso eu esteja cadastrando -> usa o POST
+                await fetch("http://localhost:3000/pessoas", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nome, ida, volta })
@@ -123,9 +123,17 @@
             carregarPessoas();
             //fecha o modal e carrega a lista de pessoas atuais
 
-
-
         }
+
+        async function ExcluirPessoa(id) {
+            await fetch(`http://localhost:3000/pessoas/${id}`, {
+                method: "DELETE",
+            });
+
+            document.getElementById("Lista_Pessoas").innerHTML = "";
+            carregarPessoas();
+        }
+
     </script>
 </body>
 
