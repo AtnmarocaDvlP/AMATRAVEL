@@ -22,7 +22,7 @@
     <div class="subtitle">
         <h3> Gerencie seus passageiros e valores de corrida </h3>
     </div>
-    <button class="button_add" onclick="abrirModal()"> Adicionar </button>
+    <button class="button_add" onclick="abrirModal()"> Register </button>
 
     <!-- Modal de Cadastro -->
     <div id="modal_overlay" class="modal_overlay" style="display: none;">
@@ -66,15 +66,15 @@
                     <p>Ida: R$ ${ida} · Volta: R$ ${volta}</p>
                 </div>
                 <div class="container_button">
-                    <button class="btn_editar" onclick="editarpessoa(${id}, '${nome}', ${ida}, ${volta})">Editar</button>
-                    <button class="btn_excluir" onclick="ExcluirPessoa(${id})">Excluir</button>
+                    <button class="btn_editar" onclick="editarpessoa(${id}, '${nome}', ${ida}, ${volta})">Edit</button>
+                    <button class="btn_excluir" onclick="ExcluirPessoa(${id})">Delete</button>
                 </div>
             </div>
         `;
             lista.appendChild(card);
         }
         async function carregarPessoas() {
-            const resposta = await fetch("http://localhost:3000/pessoas");
+            const resposta = await fetch("/pessoas");
             const pessoas = await resposta.json();
             pessoas.forEach(p => criarCard(p.id, p.nome, p.valor_ida, p.valor_volta));
         }
@@ -103,14 +103,14 @@
 
             if (editandopessoa) {
                 // if para caso eu esteja editando -> usa o PUT
-                await fetch(`http://localhost:3000/pessoas/${editandopessoa}`, {
+                await fetch(`/pessoas/${editandopessoa}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nome, ida, volta })
                 });
             } else {
                 // else para caso eu esteja cadastrando -> usa o POST
-                await fetch("http://localhost:3000/pessoas", {
+                await fetch("/pessoas", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nome, ida, volta })
@@ -126,7 +126,7 @@
         }
 
         async function ExcluirPessoa(id) {
-            await fetch(`http://localhost:3000/pessoas/${id}`, {
+            await fetch(`/pessoas/${id}`, {
                 method: "DELETE",
             });
 

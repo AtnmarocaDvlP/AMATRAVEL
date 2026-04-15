@@ -313,3 +313,71 @@ h1 {
 .btn_cancelar:active {
     background-color: #c5bfb3;
 }
+
+/* ===== RESPONSIVO MOBILE ===== */
+
+@media (max-width: 640px) {
+
+    nav {
+        padding-left: 15px;
+        padding-right: 15px;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+    }
+
+    nav h3 {
+        padding-left: 0;
+        width: 100%;
+    }
+
+    nav a:first-of-type {
+        margin-left: 0;
+    }
+
+    h1 {
+        padding-left: 20px;
+        padding-top: 15px;
+        font-size: 24px;
+    }
+
+    .subtitle {
+        padding-left: 20px;
+    }
+
+    .button_add {
+        margin-right: 20px;
+        margin-left: 20px;
+        width: calc(100% - 40px);
+        justify-content: center;
+    }
+
+    .Users {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+
+    .user_card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .container_button {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .modal {
+        width: calc(100% - 30px);
+        padding: 20px;
+        margin: 0 15px;
+    }
+
+    .btn_editar,
+    .btn_excluir {
+        font-size: 15px;
+        padding: 8px 14px;
+    }
+}

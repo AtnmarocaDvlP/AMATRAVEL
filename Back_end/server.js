@@ -1,10 +1,11 @@
 const express = require("express"); // vai a pasta node_modules, encontra express e traz
 const mysql = require("mysql2"); // faz a mesma coisa que o express mas com mysql
 const cors = require("cors"); // faz a mesma coisa que o express mas com cors
-
+const path = require("path");// manipulador de caminhos de arquivos
 const app = express(); // criação do servidor a variavel app é o servidor
 app.use(cors()); // permite requisições do front-end
 app.use(express.json()); // permite que o servidor receba dados em formato json
+app.use(express.static(path.join(__dirname, "../Front-End"))); // entrega o front end tambem em login em mesma rede 
 
 const db = mysql.createConnection({ // criação da conexão com o banco de dados
     host: "localhost",
@@ -21,7 +22,7 @@ db.connect(err => {  // retorno do banco quando testar conexão
 //------------------//Reconhecer pessoas no banco//---------------//
 
 
-app.get("/pessoas", (req, res) => { // quando acessado, rodar essa function
+app.get("/pessoas", (req, res) => { // quando acessado, rodar essa function que apenas ativo = 1 entra
     db.query("SELECT * FROM pessoa WHERE ativo = 1", (err, resultado) => {
         if (err) return res.status(500).json({ erro: err });
         res.json(resultado);
@@ -52,6 +53,19 @@ app.put("/pessoas/:id", (req, res) => {
     db.query(
         "UPDATE pessoa SET nome = ?, valor_ida = ?, valor_volta = ? WHERE id = ?",
         [nome, ida, volta, req.params.id],
+        (err) => {
+            if (err) return res.status(500).json({ erro: err });
+            res.json({ sucesso: true });
+        }
+    );
+})
+
+//------------------//Deletar pessoas do banco//-----------------//
+
+app.delete("/pessoas/:id", (req, res) => {
+    db.query(
+        "UPDATE pessoa SET ativo = 0 WHERE id = ?",
+        [req.params.id],
         (err) => {
             if (err) return res.status(500).json({ erro: err });
             res.json({ sucesso: true });
