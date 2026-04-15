@@ -46,3 +46,20 @@ app.post("/pessoas", (req, res) => { // quando acessado, rodar essa function de 
         }
     );
 });
+
+
+//------------------//Edição de pessoas no banco//--------------//
+let editandopessoa = null; // para conseguir atribuir a variavel de ediçao
+
+<button class="btn_editar" onclick="editarpessoa(${id}),
+ '${nome}, ${ida}, ${volta}">Editar</button>
+
+function editarpessoa(id, nome, ida, volta) {
+
+    editandopessoa = id;
+    document.getElementById("input_nome").value = nome;
+    document.getElementById("input_ida").value = ida;
+    document.getElementById("input_volta").value = volta;
+    abrirModal();
+}
+
