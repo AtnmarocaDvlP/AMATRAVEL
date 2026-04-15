@@ -45,14 +45,17 @@
             </div>
             <div class="modal_buttons">
                 <button class="btn_cancelar" onclick="fecharModal()">Cancelar</button>
-                <button class="btn_salvar" onclick="salvarPessoa()">Salvar</button>
+                <button class="btn_salvar" onclick="SalvarPessoa()">Salvar</button>
             </div>
         </div>
     </div>
 
     <div id="Lista_Pessoas"></div>
     <script>
-        function criarCard(nome, ida, volta) {
+
+        let editandopessoa = null;
+
+        function criarCard(id, nome, ida, volta) {
             const lista = document.getElementById("Lista_Pessoas");
             const card = document.createElement("div");
             card.className = "Users";
@@ -63,7 +66,7 @@
                     <p>Ida: R$ ${ida} · Volta: R$ ${volta}</p>
                 </div>
                 <div class="container_button">
-                    <button class="btn_editar">Editar</button>
+                    <button class="btn_editar" onclick="editarpessoa(${id}, '${nome}', ${ida}, ${volta})">Editar</button>
                     <button class="btn_excluir">Excluir</button>
                 </div>
             </div>
@@ -73,7 +76,7 @@
         async function carregarPessoas() {
             const resposta = await fetch("http://localhost:3000/pessoas");
             const pessoas = await resposta.json();
-            pessoas.forEach(p => criarCard(p.nome, p.valor_ida, p.valor_volta));
+            pessoas.forEach(p => criarCard(p.id, p.nome, p.valor_ida, p.valor_volta));
         }
         document.addEventListener("DOMContentLoaded", carregarPessoas);
 
@@ -84,18 +87,44 @@
             document.getElementById("modal_overlay").style.display = "none";
         }
 
-        async function salvarPessoa() {
+        function editarpessoa(id, nome, ida, volta) {
+            // atribuindos as variaveis de edição
+            editandopessoa = id;
+            document.getElementById("input_nome").value = nome;
+            document.getElementById("input_ida").value = ida;
+            document.getElementById("input_volta").value = volta;
+            abrirModal();
+        }
+
+        async function SalvarPessoa() {
             const nome = document.getElementById("input_nome").value;
             const ida = document.getElementById("input_ida").value;
             const volta = document.getElementById("input_volta").value;
-            await fetch("http://localhost:3000/pessoas", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nome, ida, volta })
-            });
+
+            if (editandopessoa) {
+                // if para caso eu esteja editando -> usa o PUT
+                await fetch(`/pessoas/${editandopessoa}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nome, ida, volta })
+                });
+            } else {
+                // else para caso eu esteja cadastrando -> Usa o ROt
+                await fetch("/pessoas", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nome, ida, volta })
+                })
+            };
+            editandopessoa = null;
+            // reseta a pessoa que foi escolhida para editar o cadastrar
             fecharModal();
             document.getElementById("Lista_Pessoas").innerHTML = "";
             carregarPessoas();
+            //fecha o modal e carrega a lista de pessoas atuais
+
+
+
         }
     </script>
 </body>
