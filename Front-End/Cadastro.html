@@ -92,6 +92,11 @@
         }
         function fecharModal() {
             document.getElementById("modal_overlay").style.display = "none";
+            // Limpa os dados para evitar que fiquem gravados para o próximo clique
+            document.getElementById("input_nome").value = "";
+            document.getElementById("input_ida").value = "";
+            document.getElementById("input_volta").value = "";
+            editandopessoa = null;
         }
 
         function editarpessoa(id, nome, ida, volta) {

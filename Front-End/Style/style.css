@@ -209,6 +209,14 @@ body {
     padding: 20px 80px;
 }
 
+/* Base de Lista esticada para a tela de Registros/Viagens */
+#Conteudo_Registros {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 80px;
+}
+
 .Users {
     background-color: #ffffff;
     border-radius: 12px;
@@ -427,6 +435,10 @@ body {
         padding: 10px 20px;
     }
 
+    #Conteudo_Registros {
+        padding: 10px 20px;
+    }
+
     .Users {
         padding: 20px;
     }
@@ -453,4 +465,80 @@ body {
         font-size: 15px;
         padding: 8px 14px;
     }
+}
+
+/* ===== REGISTRO DE VIAGENS ===== */
+
+.viagem_passageiros_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.badge_passageiro {
+    background-color: #f7f2e6;
+    color: #5c5033;
+    border: 1px solid #d2c8b5;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.trecho_checkboxes {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.custom_checkbox {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.custom_checkbox input {
+    display: none;
+}
+
+.custom_checkbox .checkmark {
+    padding: 8px 16px;
+    background-color: #f0ece3;
+    border: 1.5px solid #d2c8b5;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    user-select: none;
+    color: #727269;
+}
+
+.custom_checkbox input:checked + .checkmark {
+    background-color: #e9f2eb;
+    border-color: #3b6644;
+    color: #3b6644;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(59, 102, 68, 0.15);
+}
+
+.passageiros_checkbox_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #d2c8b5;
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #faf8f3;
+}
+
+.custom_checkbox_pessoa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #1A1A18;
+    cursor: pointer;
 }

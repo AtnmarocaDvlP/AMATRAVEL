@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registros</title>
     <link rel="stylesheet" href="Style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -17,6 +19,120 @@
         <a href="relatório.html"> Relatório </a>
     </nav>
 
+    <!-- CABEÇALHO -->
+    <div class="page_header">
+        <div class="page_title">
+            <h1> Lançamentos de Viagens </h1>
+            <div class="subtitle">
+                <h3> Registre os passageiros e gerencie as corridas ativas </h3>
+            </div>
+        </div>
+        <!-- //funcao_abrir_modal  -->
+        <button class="button_add" onclick="abrirModalViagem()">➕ Lançar Viagem</button>
+    </div>
+
+    <!-- MODAL DE LANÇAMENTO -->
+    <div id="modal_overlay_viagem" class="modal_overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal_header">
+                <h2>Lançar Trecho</h2>
+                <!-- //funcao_fechar_modal -->
+                <button class="btn_fechar" onclick="fecharModalViagem()">✕</button>
+            </div>
+
+            <div class="modal_campo">
+                <label>Data da Viagem</label>
+                <!-- // NOME SUGERIDO DA VARIAVEL: input_data_viagem -->
+                <input type="date" id="input_data_viagem">
+            </div>
+
+            <div class="modal_campo">
+                <label>Trechos (Selecione um ou ambos)</label>
+                <div class="trecho_checkboxes">
+                    <label class="custom_checkbox">
+                        <!-- // NOME SUGERIDO DA VARIAVEL: checkbox_ida -->
+                        <input type="checkbox" id="checkbox_ida" value="Ida">
+                        <span class="checkmark">Ida</span>
+                    </label>
+                    <label class="custom_checkbox">
+                        <!-- // NOME SUGERIDO DA VARIAVEL: checkbox_volta -->
+                        <input type="checkbox" id="checkbox_volta" value="Volta">
+                        <span class="checkmark">Volta</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal_campo">
+                <label>Passageiros do Veículo</label>
+                <!-- === O SEU JAVASCRIPT MANDA NESSE BLOCO === -->
+                <!-- Use o Fetch do banco de dados para criar checkboxes e injetar aqui dentro do id abaixo -->
+                <!-- // NOME SUGERIDO DO CONTAINER: container_passageiros -->
+                <div id="container_passageiros" class="passageiros_checkbox_list">
+
+                    <!-- EXEMPLO HTML DE COMO SEU JS DEVE INJETAR AS OPÇÕES -->
+                    <!-- <label class="custom_checkbox_pessoa"><input type="checkbox" value="${p.id}"> ${p.nome}</label> -->
+
+                    <!-- Itens fakes só para visualizar o layout no navegador por enquanto -->
+                    <label class="custom_checkbox_pessoa"><input type="checkbox" value="1"> Izzabela</label>
+                    <label class="custom_checkbox_pessoa"><input type="checkbox" value="2"> Julimar Melo</label>
+                </div>
+            </div>
+
+            <div class="modal_buttons">
+                <!-- //funcao_fechar_modal -->
+                <button class="btn_cancelar" onclick="fecharModalViagem()">Cancelar</button>
+                <!-- //funcao_salvar_viagem -->
+                <button class="btn_salvar" onclick="SalvarViagem()">Salvar Lançamento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁREA ONDE OS CARDS SERÃO RENDERIZADOS PELO JAVASCRIPT -->
+    <!-- Assim como em Cadastro.html, isso dita o Grid -->
+    <div id="Conteudo_Registros">
+
+        <!-- ============================================================== -->
+        <!-- MOCKUP (EXEMPLO): USE ESSE HTML NO SEU JS PARA CRIAR O CARD  -->
+        <!-- ============================================================== -->
+        <div class="Users" id="card_exemplo_temporario">
+            <div class="user_card">
+                <div class="user_text">
+                    <!-- Data Formatada -->
+                    <!-- // VARIAVEL JS: ${data_formatada} -->
+                    <h3>📅 18/04/2026</h3>
+                    <p class="prices">
+                        <!-- Exiba as badges conforme estiver marcado no banco (Ida/Volta/Ambas) -->
+                        <span class="badge badge-ida">Ida</span>
+                        <span class="badge badge-volta">Volta</span>
+                    </p>
+
+                    <!-- Lista de nomes das pessoas vinculadas a esta viagem -->
+                    <!-- // VOCÊ VAI PRECISAR UM LOOP JS AQUI PARA RENDERIZAR: <span class="badge_passageiro">${nome_passageiro}</span> -->
+                    <div class="viagem_passageiros_container">
+                        <span class="badge_passageiro">Julimar Melo</span>
+                        <span class="badge_passageiro">Edson Ramos</span>
+                    </div>
+
+                </div>
+                <div class="container_button">
+                    <!-- Botões de ação, // VARIAVEL JS: ${id_viagem} -->
+                    <button class="btn_excluir" onclick="DeletarViagem(0)">🗑️ Apagar</button>
+                </div>
+            </div>
+        </div>
+        <!-- FIM DO MOCKUP -->
+
+    </div>
+
+    <!-- SCRIPT APENAS PARA VISUALIZÁ_MOS O MODAL HOJE - DEPOIS MODIFIQUE COM SUAS REGRAS -->
+    <script>
+        function abrirModalViagem() {
+            document.getElementById('modal_overlay_viagem').style.display = 'flex';
+        }
+        function fecharModalViagem() {
+            document.getElementById('modal_overlay_viagem').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
