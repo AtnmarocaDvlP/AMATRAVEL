@@ -3,11 +3,14 @@ nav {
     position: sticky;
     top: 0;
     margin: 0;
-    background-color: #ffffff;
-    border: 2px solid #d2c8b5;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 2px solid #d2c8b5;
     padding-left: 30px;
     padding-right: 30px;
     gap: 20px;
+    z-index: 50;
 }
 
 nav h3 {
@@ -51,30 +54,48 @@ label {
 .btn_editar {
     color: #5c5033;
     background-color: #edd9a3;
-    border-radius: 5px;
+    border-radius: 6px; /* Arredondado leve */
     border: 1px solid #d4be7a;
-    font-size: 18px;
+    font-size: 14px; /* Diminui a fonte */
+    font-weight: 500;
     cursor: pointer;
     font-family: 'Bricolage Grotesque', sans-serif;
-    transition: background-color 0.3s ease;
-    padding: 5px 15px;
+    transition: all 0.3s ease;
+    padding: 4px 12px; /* Diminui o espaçamento */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 34px; /* Trava a altura para o Emoji do Windows não esticar o botão */
 }
 
 .container_button {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+    border-top: 1px solid #e8e1d1;
+    padding-top: 16px;
+    margin-top: auto;
 }
 
 .btn_excluir {
     color: #7a4040;
     background-color: #e8b0a0;
-    border-radius: 5px;
+    border-radius: 6px; /* Arredondado leve */
     border: 1px solid #cfa090;
-    font-size: 18px;
+    font-size: 14px; /* Diminui a fonte */
+    font-weight: 500;
     cursor: pointer;
     font-family: 'Bricolage Grotesque', sans-serif;
-    transition: background-color 0.3s ease;
-    padding: 5px 15px;
+    transition: all 0.3s ease;
+    padding: 4px 12px; /* Diminui o espaçamento */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 34px; /* Trava a altura para o Emoji do Windows não esticar o botão */
 }
 
 .btn_editar:hover {
@@ -98,9 +119,6 @@ label {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-left: auto;
-    margin-right: 90px;
-    margin-bottom: 10px;
     font-size: 16px;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 500;
@@ -137,11 +155,15 @@ body {
 
 .user_card {
     display: flex;
-    justify-content: space-between;
-    /* Empurra os textos para a esquerda e os botões para a direita */
-    align-items: center;
-    /* Alinha tudo verticalmente no centro */
-    margin-bottom: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    gap: 16px;
+}
+
+.user_text {
+    flex-grow: 1;
+    width: 100%;
 }
 
 .user_text h3 {
@@ -154,29 +176,71 @@ body {
     color: #727269;
 }
 
+.prices {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px !important;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.badge-ida {
+    background-color: #e9f2eb;
+    color: #3b6644;
+    border: 1px solid #cce0d1;
+}
+
+.badge-volta {
+    background-color: #f2ede9;
+    color: #664c3b;
+    border: 1px solid #e0ccc2;
+}
+
+/* Base de Grid para listar itens em qualquer página */
+#Lista_Pessoas, #Conteudo_Listagem {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 20px 80px;
+}
+
 .Users {
     background-color: #ffffff;
     border-radius: 12px;
     border: 2px solid #d2c8b5;
-    margin-left: 80px;
-    margin-right: 80px;
-    padding: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-left: 40px;
-    margin-bottom: 5px;
+    padding: 24px;
+    margin: 0; /* Removendo a margem; o Grid cuida do espaçamento */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-h1 {
+.Users:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-color: #b7ae9e;
+}
+
+.page_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 80px;
+    margin-bottom: 10px;
+}
+
+.page_title h1 {
     color: #1A1A18;
-    padding-left: 80px;
-    padding-top: 20px;
-
+    margin: 0 0 5px 0;
 }
 
-.subtitle {
+.subtitle h3 {
+    margin: 0;
     color: #727269;
-    padding-left: 80px;
+    font-weight: 500;
 }
 
 /* ===== MODAL ===== */
@@ -187,7 +251,9 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(26, 26, 24, 0.4);
+    background-color: rgba(26, 26, 24, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -263,8 +329,9 @@ h1 {
 
 .modal_campo input:focus {
     outline: none;
-    border-color: #b7ae9e;
+    border-color: #8c7f66;
     background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(183, 174, 158, 0.3);
 }
 
 .modal_buttons {
@@ -275,31 +342,35 @@ h1 {
 }
 
 .btn_salvar {
-    background-color: rgb(182, 253, 188);
-    color: rgb(47, 56, 48);
-    border: 1px solid rgb(47, 56, 48);
-    border-radius: 5px;
-    font-size: 18px;
+    background-color: #3b6644;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
     padding: 8px 20px;
     cursor: pointer;
     font-family: 'Bricolage Grotesque', sans-serif;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .btn_salvar:hover {
-    background-color: rgb(116, 165, 120);
+    background-color: #2f5336;
+    box-shadow: 0 4px 10px rgba(59, 102, 68, 0.2);
+    transform: translateY(-1px);
 }
 
 .btn_salvar:active {
-    background-color: rgb(88, 121, 91);
+    background-color: #233e28;
+    transform: translateY(0);
 }
 
 .btn_cancelar {
     background-color: #f0ece3;
     color: #1A1A18;
     border: 1px solid #b7ae9e;
-    border-radius: 5px;
-    font-size: 18px;
+    border-radius: 6px;
+    font-size: 16px;
     padding: 8px 20px;
     cursor: pointer;
     font-family: 'Bricolage Grotesque', sans-serif;
@@ -335,27 +406,29 @@ h1 {
         margin-left: 0;
     }
 
-    h1 {
-        padding-left: 20px;
-        padding-top: 15px;
+    .page_header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .page_title h1 {
         font-size: 24px;
     }
 
-    .subtitle {
-        padding-left: 20px;
-    }
-
     .button_add {
-        margin-right: 20px;
-        margin-left: 20px;
-        width: calc(100% - 40px);
+        width: 100%;
         justify-content: center;
     }
 
+    #Lista_Pessoas, #Conteudo_Listagem {
+        grid-template-columns: 1fr;
+        padding: 10px 20px;
+    }
+
     .Users {
-        margin-left: 10px;
-        margin-right: 10px;
-        padding: 15px;
+        padding: 20px;
     }
 
     .user_card {

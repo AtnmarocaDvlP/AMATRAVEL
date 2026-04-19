@@ -18,11 +18,15 @@
         <a href="histórico.html"> Histórico</a>
         <a href="relatório.html"> Relatório </a>
     </nav>
-    <h1> Cadastro de pessoas </h1>
-    <div class="subtitle">
-        <h3> Gerencie seus passageiros e valores de corrida </h3>
+    <div class="page_header">
+        <div class="page_title">
+            <h1> Cadastro de pessoas </h1>
+            <div class="subtitle">
+                <h3> Gerencie seus passageiros e valores de corrida </h3>
+            </div>
+        </div>
+        <button class="button_add" onclick="abrirModal()">➕ Novo Passageiro</button>
     </div>
-    <button class="button_add" onclick="abrirModal()"> Register </button>
 
     <!-- Modal de Cadastro -->
     <div id="modal_overlay" class="modal_overlay" style="display: none;">
@@ -63,11 +67,14 @@
             <div class="user_card">
                 <div class="user_text">
                     <h3>${nome}</h3>
-                    <p>Ida: R$ ${ida} · Volta: R$ ${volta}</p>
+                    <p class="prices">
+                        <span class="badge badge-ida">Ida: R$ ${ida}</span>
+                        <span class="badge badge-volta">Volta: R$ ${volta}</span>
+                    </p>
                 </div>
                 <div class="container_button">
-                    <button class="btn_editar" onclick="editarpessoa(${id}, '${nome}', ${ida}, ${volta})">Edit</button>
-                    <button class="btn_excluir" onclick="ExcluirPessoa(${id})">Delete</button>
+                    <button class="btn_editar" onclick="editarpessoa(${id}, '${nome}', ${ida}, ${volta})">✏️ Edit</button>
+                    <button class="btn_excluir" onclick="ExcluirPessoa(${id})">🗑️ Delete</button>
                 </div>
             </div>
         `;
