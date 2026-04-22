@@ -91,36 +91,7 @@
     <!-- Assim como em Cadastro.html, isso dita o Grid -->
     <div id="Conteudo_Registros">
 
-        <!-- ============================================================== -->
-        <!-- MOCKUP (EXEMPLO): USE ESSE HTML NO SEU JS PARA CRIAR O CARD  -->
-        <!-- ============================================================== -->
-        <div class="Users" id="card_exemplo_temporario">
-            <div class="user_card">
-                <div class="user_text">
-                    <!-- Data Formatada -->
-                    <!-- // VARIAVEL JS: ${data_formatada} -->
-                    <h3>📅 18/04/2026</h3>
-                    <p class="prices">
-                        <!-- Exiba as badges conforme estiver marcado no banco (Ida/Volta/Ambas) -->
-                        <span class="badge badge-ida">Ida</span>
-                        <span class="badge badge-volta">Volta</span>
-                    </p>
 
-                    <!-- Lista de nomes das pessoas vinculadas a esta viagem -->
-                    <!-- // VOCÊ VAI PRECISAR UM LOOP JS AQUI PARA RENDERIZAR: <span class="badge_passageiro">${nome_passageiro}</span> -->
-                    <div class="viagem_passageiros_container">
-                        <span class="badge_passageiro">Julimar Melo</span>
-                        <span class="badge_passageiro">Edson Ramos</span>
-                    </div>
-
-                </div>
-                <div class="container_button">
-                    <!-- Botões de ação, // VARIAVEL JS: ${id_viagem} -->
-                    <button class="btn_excluir" onclick="DeletarViagem(0)">🗑️ Apagar</button>
-                </div>
-            </div>
-        </div>
-        <!-- FIM DO MOCKUP -->
 
     </div>
 
@@ -131,6 +102,37 @@
         }
         function fecharModalViagem() {
             document.getElementById('modal_overlay_viagem').style.display = 'none';
+        }
+
+        // --- COMEÇO DO SEU JS PARA AS VIAGENS ---
+        
+        // 1. Função para criar o card dinamicamente (O HTML que estava lá em cima veio para cá!)
+        function criarCardViagem(id, data_formatada) {
+            const lista = document.getElementById("Conteudo_Registros");
+            const card = document.createElement("div");
+            card.className = "Users";
+            
+            card.innerHTML = `
+            <div class="user_card">
+                <div class="user_text">
+                    <h3>📅 ${data_formatada}</h3>
+                    <p class="prices">
+                        <!-- Depois faremos a lógica para mostrar apenas Ida ou Volta caso selecionado -->
+                        <span class="badge badge-ida">Ida</span>
+                        <span class="badge badge-volta">Volta</span>
+                    </p>
+                    <div class="viagem_passageiros_container">
+                        <!-- Depois incluiremos um LOOP aqui para renderizar os passageiros dinâmicos do banco -->
+                        <span class="badge_passageiro">Carregando passageiro...</span>
+                    </div>
+                </div>
+                <div class="container_button">
+                    <button class="btn_excluir" onclick="DeletarViagem(${id})">🗑️ Apagar</button>
+                </div>
+            </div>
+            `;
+            
+            lista.appendChild(card);
         }
     </script>
 </body>
