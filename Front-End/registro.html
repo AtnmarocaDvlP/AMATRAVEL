@@ -143,7 +143,8 @@
             `;
         }
         async function CarregarViagensModal() {
-            const resposta = await fetch("/pessoas");
+            // Esse pedaço de código no final "?nocache=..." impede o Google Chrome de te dar o cache velho!
+            const resposta = await fetch("/pessoas?nocache=" + new Date().getTime());
             const pessoas = await resposta.json();
             pessoas.forEach(p => criarCheckboxPassageiro(p.id, p.nome));
         }

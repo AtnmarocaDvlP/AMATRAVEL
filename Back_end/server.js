@@ -77,12 +77,27 @@ app.delete("/pessoas/:id", (req, res) => {
 
 app.post("/viagens", (req, res) => {
     const { data_viagem, ida, volta, ids_passageiros } = req.body;
+    
+    // 1º Pedaço: Insere a viagem "seca" na Tabela 1 (apenas a Placa do Carro e a Data)
     db.query(
-        "INSERT INTO viagens (data_viagem, ida, volta,id_passageiro) VALUES (?, ?, ?, ?)",
-        [data_viagem, ida, volta, ids_passageiros],
+        "INSERT INTO viagens (data_viagem, ida, volta, ativo) VALUES (?, ?, ?, 1)",
+        [data_viagem, ida, volta],
         (err, resultado) => {
             if (err) return res.status(500).json({ erro: err });
-            res.json({ id: resultado.insertId });
+            
+            // Graças a Deus o banco acabou de criar a Viagem e gerou um ID novo pra ela (Ex: ID 5)
+            const nova_viagem_id = resultado.insertId;
+            
+            // 2º Pedaço: Fazemos um Loop na Tabela 2! Pra CADA pessoa (Ex: 1, 5, 8), colocamos ela dentro daquela viagem 5
+            ids_passageiros.forEach(id_da_pessoa => {
+                db.query(
+                    "INSERT INTO viagem_passageiro (viagem_id, pessoa_id, pago) VALUES (?, ?, 0)",
+                    [nova_viagem_id, id_da_pessoa] 
+                );
+            });
+
+            // Avisa o Frontend que os DOIS INSERTS terminaram com sucesso
+            res.json({ id: nova_viagem_id, sucesso: true });
         }
     );
 })
