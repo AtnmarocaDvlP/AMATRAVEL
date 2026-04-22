@@ -72,3 +72,17 @@ app.delete("/pessoas/:id", (req, res) => {
         }
     );
 })
+
+//-----------------------//--------------------------//---------------------//
+
+app.post("/viagens", (req, res) => {
+    const { data_viagem, ida, volta, ids_passageiros } = req.body;
+    db.query(
+        "INSERT INTO viagens (data_viagem, ida, volta,id_passageiro) VALUES (?, ?, ?, ?)",
+        [data_viagem, ida, volta, ids_passageiros],
+        (err, resultado) => {
+            if (err) return res.status(500).json({ erro: err });
+            res.json({ id: resultado.insertId });
+        }
+    );
+})

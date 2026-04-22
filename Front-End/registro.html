@@ -105,13 +105,13 @@
         }
 
         // --- COMEÇO DO SEU JS PARA AS VIAGENS ---
-        
+
         // 1. Função para criar o card dinamicamente (O HTML que estava lá em cima veio para cá!)
         function criarCardViagem(id, data_formatada) {
             const lista = document.getElementById("Conteudo_Registros");
             const card = document.createElement("div");
             card.className = "Users";
-            
+
             card.innerHTML = `
             <div class="user_card">
                 <div class="user_text">
@@ -131,9 +131,23 @@
                 </div>
             </div>
             `;
-            
+
             lista.appendChild(card);
         }
+        function criarCheckboxPassageiro(id, nome) {
+            const container = document.getElementById("container_passageiros");
+            container.innerHTML += `
+            <label class="custom_checkbox_pessoa">
+                <input type="checkbox" value="${id}">${nome}
+            </label>
+            `;
+        }
+        async function CarregarViagensModal() {
+            const resposta = await fetch("/pessoas");
+            const pessoas = await resposta.json();
+            pessoas.forEach(p => criarCheckboxPassageiro(p.id, p.nome));
+        }
+        CarregarViagensModal();
     </script>
 </body>
 
