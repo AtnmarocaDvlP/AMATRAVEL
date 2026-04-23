@@ -105,23 +105,32 @@
         // --- COMEÇO DO SEU JS PARA AS VIAGENS ---
 
         // 1. Função para criar o card dinamicamente (O HTML que estava lá em cima veio para cá!)
-        function criarCardViagem(id, data_formatada) {
+        function criarCardViagem(id, data_formatada, ida, volta, lista_passageiros) {
             const lista = document.getElementById("Conteudo_Registros");
             const card = document.createElement("div");
             card.className = "Users";
 
+            // 1. Lógica para mostrar só as badges de Ida e Volta corretas:
+            let htmlIdaVolta = "";
+            if (ida == 1) htmlIdaVolta += `<span class="badge badge-ida">Ida</span> `;
+            if (volta == 1) htmlIdaVolta += `<span class="badge badge-volta">Volta</span>`;
+
+            // 2. Lógica para gerar as badges (selos) com o nome de cada passageiro:
+            let htmlPassageiros = "";
+            lista_passageiros.forEach(nome => {
+                htmlPassageiros += `<span class="badge_passageiro">${nome}</span> `;
+            });
+
+            // 3. Monta o Card em si injetando o HTML que criamos acima
             card.innerHTML = `
             <div class="user_card">
                 <div class="user_text">
                     <h3>📅 ${data_formatada}</h3>
                     <p class="prices">
-                        <!-- Depois faremos a lógica para mostrar apenas Ida ou Volta caso selecionado -->
-                        <span class="badge badge-ida">Ida</span>
-                        <span class="badge badge-volta">Volta</span>
+                        ${htmlIdaVolta}
                     </p>
                     <div class="viagem_passageiros_container">
-                        <!-- Depois incluiremos um LOOP aqui para renderizar os passageiros dinâmicos do banco -->
-                        <span class="badge_passageiro">Carregando passageiro...</span>
+                        ${htmlPassageiros}
                     </div>
                 </div>
                 <div class="container_button">
@@ -132,6 +141,8 @@
 
             lista.appendChild(card);
         }
+
+        // função de criar a checkbox que vai ficar as pessoas cadastradas no banco lá no modal de viagens
         function criarCheckboxPassageiro(id, nome) {
             const container = document.getElementById("container_passageiros");
             container.innerHTML += `
@@ -140,6 +151,7 @@
             </label>
             `;
         }
+        // função que carrega a checkbox do modal com as pessoas cadastradas
         async function CarregarViagensModal() {
             const resposta = await fetch("/pessoas");
             const pessoas = await resposta.json();
@@ -147,6 +159,7 @@
         }
         CarregarViagensModal();
 
+        //função de salvar a viagem, pegando todas as informações dadas nos campos do modal
         async function SalvarViagem() {
             const data = document.getElementById("input_data_viagem").value;
             const checkboxesPassageiros = document.querySelectorAll("#container_passageiros input[type=checkbox]:checked");
@@ -154,12 +167,63 @@
             const volta = document.getElementById("checkbox_volta").checked;
             const passageirosIds = Array.from(checkboxesPassageiros).map(checkbox => checkbox.value);
 
-            console.log("ida Selecionada?", ida);
-            console.log("volta selecionada?", volta);
-            console.log("Ids dos passageiros marcados", passageirosIds);
-            console.log("Data: ", data);
+            // aguarda o recebimento das informações depois faz o post delas no banco
+            await fetch("/viagens", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data_viagem: data, ida: ida, volta: volta, ids_passageiros: passageirosIds })
+            })
 
+            fecharModalViagem();
+            CarregarViagens();
         }
+
+        async function CarregarViagens() {
+            const resposta = await fetch("/viagens");
+            const viagemdobanco = await resposta.json();
+
+            // criação de variavel que vai servir como armazem de pessoas em cada viagem
+            const viagensAgrupadas = {};
+
+            // averigua todas as linhas que vieram do banco 
+            viagemdobanco.forEach(linha => {
+                const id = linha.id_viagem;
+
+                // se a viagem não existir no armazem, cria uma nova viagem com essas informações
+                if (!viagensAgrupadas[id]) {
+                    viagensAgrupadas[id] = {
+                        id: linha.id_viagem,
+                        data_viagem: linha.data_viagem,
+                        ida: linha.ida,
+                        volta: linha.volta,
+                        passageiros: []
+                    };
+                }
+                // adiciona nome do passageiro no armazem caso a viagem já exista
+                viagensAgrupadas[id].passageiros.push(linha.nome_passageiro);
+            });
+
+            // Transforma o objeto agrupado de volta em uma lista normal
+            const listaDeViagensUnicas = Object.values(viagensAgrupadas);
+
+            // limpa a tela antes de desenhar
+            document.getElementById("Conteudo_Registros").innerHTML = "";
+
+            listaDeViagensUnicas.forEach(viagem => {
+                // Para formatar a data visualmente
+                let dataFormatada = new Date(viagem.data_viagem).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+
+                criarCardViagem(viagem.id, dataFormatada, viagem.ida, viagem.volta, viagem.passageiros);
+            });
+        }
+
+        async function DeletarViagem(id) {
+            await fetch(`/viagens/${id}`, {
+                method: "DELETE"
+            });
+            CarregarViagens();
+        }
+        document.addEventListener("DOMContentLoaded", CarregarViagens);
     </script>
 </body>
 

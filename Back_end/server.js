@@ -7,7 +7,11 @@ app.use(cors()); // permite requisições do front-end
 app.use(express.json()); // permite que o servidor receba dados em formato json
 app.use(express.static(path.join(__dirname, "../Front-End"))); // entrega o front end tambem em login em mesma rede 
 
-const db = mysql.createConnection({ // criação da conexão com o banco de dados
+
+//---------------// criação da conexão com o banco de dados //-------------//
+
+
+const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "Fittuning250!",
@@ -75,29 +79,57 @@ app.delete("/pessoas/:id", (req, res) => {
 
 //-----------------------//--------------------------//---------------------//
 
+app.get("/viagens", (req, res) => {
+    db.query(`
+            SELECT
+            v.id AS id_viagem,
+            v.ida,
+            v.volta,
+            v.data_viagem,
+            p.nome AS nome_passageiro,
+            p.id AS id_passageiro
+        FROM viagens v
+        JOIN viagem_passageiro vp ON  v.id = vp.viagem_id
+        JOIN pessoa p ON vp.pessoa_id = p.id
+        WHERE v.ativo = 1 
+        `, (err, resultado) => {
+        if (err) return res.status(500).json({ erro: err });
+        res.json(resultado);
+    });
+});
+
+
+
+
 app.post("/viagens", (req, res) => {
     const { data_viagem, ida, volta, ids_passageiros } = req.body;
-    
-    // 1º Pedaço: Insere a viagem "seca" na Tabela 1 (apenas a Placa do Carro e a Data)
     db.query(
         "INSERT INTO viagens (data_viagem, ida, volta, ativo) VALUES (?, ?, ?, 1)",
         [data_viagem, ida, volta],
         (err, resultado) => {
             if (err) return res.status(500).json({ erro: err });
-            
-            // Graças a Deus o banco acabou de criar a Viagem e gerou um ID novo pra ela (Ex: ID 5)
+
             const nova_viagem_id = resultado.insertId;
-            
-            // 2º Pedaço: Fazemos um Loop na Tabela 2! Pra CADA pessoa (Ex: 1, 5, 8), colocamos ela dentro daquela viagem 5
+
             ids_passageiros.forEach(id_da_pessoa => {
                 db.query(
                     "INSERT INTO viagem_passageiro (viagem_id, pessoa_id, pago) VALUES (?, ?, 0)",
-                    [nova_viagem_id, id_da_pessoa] 
+                    [nova_viagem_id, id_da_pessoa]
                 );
             });
-
-            // Avisa o Frontend que os DOIS INSERTS terminaram com sucesso
             res.json({ id: nova_viagem_id, sucesso: true });
+
+        }
+    );
+})
+
+app.delete("/viagens/:id", (req, res) => {
+    db.query(
+        "UPDATE viagens SET ativo = 0 WHERE id = ?",
+        [req.params.id],
+        (err) => {
+            if (err) return res.status(500).json({ erro: err });
+            res.json({ sucesso: true });
         }
     );
 })
