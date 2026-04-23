@@ -73,8 +73,6 @@
                     <!-- <label class="custom_checkbox_pessoa"><input type="checkbox" value="${p.id}"> ${p.nome}</label> -->
 
                     <!-- Itens fakes só para visualizar o layout no navegador por enquanto -->
-                    <label class="custom_checkbox_pessoa"><input type="checkbox" value="1"> Izzabela</label>
-                    <label class="custom_checkbox_pessoa"><input type="checkbox" value="2"> Julimar Melo</label>
                 </div>
             </div>
 
@@ -143,12 +141,25 @@
             `;
         }
         async function CarregarViagensModal() {
-            // Esse pedaço de código no final "?nocache=..." impede o Google Chrome de te dar o cache velho!
-            const resposta = await fetch("/pessoas?nocache=" + new Date().getTime());
+            const resposta = await fetch("/pessoas");
             const pessoas = await resposta.json();
             pessoas.forEach(p => criarCheckboxPassageiro(p.id, p.nome));
         }
         CarregarViagensModal();
+
+        async function SalvarViagem() {
+            const data = document.getElementById("input_data_viagem").value;
+            const checkboxesPassageiros = document.querySelectorAll("#container_passageiros input[type=checkbox]:checked");
+            const ida = document.getElementById("checkbox_ida").checked;
+            const volta = document.getElementById("checkbox_volta").checked;
+            const passageirosIds = Array.from(checkboxesPassageiros).map(checkbox => checkbox.value);
+
+            console.log("ida Selecionada?", ida);
+            console.log("volta selecionada?", volta);
+            console.log("Ids dos passageiros marcados", passageirosIds);
+            console.log("Data: ", data);
+
+        }
     </script>
 </body>
 
