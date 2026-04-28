@@ -172,6 +172,8 @@ app.get("/historico", (req, res) => {
 
     let valores = [];
 
+    // caso selecione os filtros os Ifs vão adicionar na query essas condições
+
     if (pessoa_id) {
         query += " AND vp.pessoa_id = ?";
         valores.push(pessoa_id);
@@ -184,5 +186,21 @@ app.get("/historico", (req, res) => {
         query += " AND v.data_viagem <= ?"
         valores.push(data_fim);
 
+    } if (ida) {
+        query += " AND v.ida = ?"
+        valores.push(ida);
+
+    } if (volta) {
+        query += " AND v.volta= ?"
+        valores.push(volta);
+
     }
+
+    // Executando no banco de dados
+    db.query(query, valores, (err, resultado) => {
+        if (err) return res.status(500).json({ erro: err });
+        res.json(resultado);
+    });
+
+
 })
