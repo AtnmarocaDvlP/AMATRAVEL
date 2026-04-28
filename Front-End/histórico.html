@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Históricos</title>
+    <title>Histórico</title>
     <link rel="stylesheet" href="Style/style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -18,6 +19,168 @@
         <a href="relatório.html"> Relatório </a>
     </nav>
 
+    <!-- CABEÇALHO -->
+    <div class="page_header">
+        <div class="page_title">
+            <h1> Histórico de Viagens </h1>
+            <div class="subtitle">
+                <h3> Consulte registros e controle os pagamentos por passageiro </h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- BARRA DE FILTROS -->
+    <div class="filtros_container">
+
+        <div class="filtro_grupo">
+            <label for="filtro_data_inicio">De</label>
+            <!-- // VARIAVEL: filtro_data_inicio -->
+            <input type="date" id="filtro_data_inicio">
+        </div>
+
+        <div class="filtro_grupo">
+            <label for="filtro_data_fim">Até</label>
+            <!-- // VARIAVEL: filtro_data_fim -->
+            <input type="date" id="filtro_data_fim">
+        </div>
+
+        <div class="filtro_grupo">
+            <label for="filtro_pessoa">Passageiro</label>
+            <!-- // VARIAVEL: filtro_pessoa -->
+            <!-- Popular com fetch("/pessoas") igual no registro.html -->
+            <select id="filtro_pessoa">
+                <option value="">Todos</option>
+            </select>
+        </div>
+
+        <div class="filtro_grupo">
+            <label>Trecho</label>
+            <div class="filtro_trechos">
+                <label class="custom_checkbox">
+                    <!-- // VARIAVEL: filtro_ida -->
+                    <input type="checkbox" id="filtro_ida" value="ida" checked>
+                    <span class="checkmark">Ida</span>
+                </label>
+                <label class="custom_checkbox">
+                    <!-- // VARIAVEL: filtro_volta -->
+                    <input type="checkbox" id="filtro_volta" value="volta" checked>
+                    <span class="checkmark">Volta</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- // funcao_buscar_historico -->
+        <button class="btn_buscar" id="btn_buscar" onclick="buscarHistorico()">🔍 Buscar</button>
+    </div>
+
+    <!-- ÁREA DE RESULTADOS -->
+    <!-- // CONTAINER: Conteudo_Historico -->
+    <div id="Conteudo_Historico">
+
+        <!-- EXEMPLO DE LINHA GERADA PELO JS (função sugerida: criarLinhaHistorico) -->
+        <!-- O JS deve criar essas divs dinamicamente, esses são só exemplos visuais -->
+
+        <!-- Exemplo 1: passageiro com ida e volta, pendente -->
+        <div class="historico_linha">
+            <!-- // checkbox para seleção em lote, value = id_viagem_passageiro -->
+            <input type="checkbox" class="historico_check" value="1">
+            <div class="historico_info">
+                <h3 class="historico_nome">João Silva</h3>
+                <div class="historico_badges">
+                    <span class="badge badge-ida">Ida: R$ 15.00</span>
+                    <span class="badge badge-volta">Volta: R$ 12.00</span>
+                </div>
+            </div>
+            <div class="historico_data">
+                <span class="historico_data_texto">📅 28/04/2026</span>
+            </div>
+            <div class="historico_pagamento">
+                <!-- // funcao_confirmar_pagamento → abre o modal de confirmação -->
+                <button class="btn_status btn_pendente" onclick="confirmarPagamento(1, 1)">⏳ Pendente</button>
+            </div>
+        </div>
+
+        <!-- Exemplo 2: passageiro só ida, pago -->
+        <div class="historico_linha">
+            <input type="checkbox" class="historico_check" value="2">
+            <div class="historico_info">
+                <h3 class="historico_nome">Maria Oliveira</h3>
+                <div class="historico_badges">
+                    <span class="badge badge-ida">Ida: R$ 20.00</span>
+                </div>
+            </div>
+            <div class="historico_data">
+                <span class="historico_data_texto">📅 27/04/2026</span>
+            </div>
+            <div class="historico_pagamento">
+                <button class="btn_status btn_pago" onclick="confirmarPagamento(2, 0)">✅ Pago</button>
+            </div>
+        </div>
+
+        <!-- Exemplo 3: passageiro só volta, pendente -->
+        <div class="historico_linha">
+            <input type="checkbox" class="historico_check" value="3">
+            <div class="historico_info">
+                <h3 class="historico_nome">Carlos Santos</h3>
+                <div class="historico_badges">
+                    <span class="badge badge-volta">Volta: R$ 18.00</span>
+                </div>
+            </div>
+            <div class="historico_data">
+                <span class="historico_data_texto">📅 26/04/2026</span>
+            </div>
+            <div class="historico_pagamento">
+                <button class="btn_status btn_pendente" onclick="confirmarPagamento(3, 1)">⏳ Pendente</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BARRA DE AÇÃO EM LOTE -->
+    <!-- // O JS mostra essa barra quando algum checkbox .historico_check está marcado -->
+    <!-- // CONTAINER: barra_lote -->
+    <div id="barra_lote" class="barra_lote" style="display: none;">
+        <span id="lote_contagem" class="lote_contagem">0 selecionados</span>
+        <!-- // funcao_confirmar_lote → abre modal confirmando a ação em lote -->
+        <button class="btn_lote btn_lote_pago" onclick="confirmarLote(1)">✅ Marcar como Pago</button>
+        <button class="btn_lote btn_lote_pendente" onclick="confirmarLote(0)">⏳ Marcar como Pendente</button>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE PAGAMENTO -->
+    <!-- // VARIAVEL: modal_confirmacao -->
+    <div id="modal_confirmacao" class="modal_overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal_header">
+                <h2>Confirmar Alteração</h2>
+                <!-- // funcao_fechar_confirmacao -->
+                <button class="btn_fechar" onclick="fecharConfirmacao()">✕</button>
+            </div>
+            <!-- // O JS altera esse texto conforme a ação (pago/pendente, individual/lote) -->
+            <p id="confirmacao_texto" class="confirmacao_texto">Deseja alterar o status de pagamento?</p>
+            <div class="modal_buttons">
+                <button class="btn_cancelar" onclick="fecharConfirmacao()">Cancelar</button>
+                <!-- // funcao_executar_alteracao → executa o PUT/PATCH no banco -->
+                <button class="btn_salvar" id="btn_confirmar_acao" onclick="executarAlteracao()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENSAGEM DE LISTA VAZIA -->
+    <!-- // O JS controla display none/flex -->
+    <div id="historico_vazio" class="historico_vazio" style="display: none;">
+        <p>Nenhum registro encontrado para os filtros selecionados.</p>
+    </div>
+
+    <script>
+        // 1. carregarFiltros() → popula o select filtro_pessoa com fetch("/pessoas")
+        // 2. buscarHistorico() → lê os filtros, faz fetch, chama criarLinhaHistorico()
+        // 3. criarLinhaHistorico(id_vp, nome, data, ida, volta, valor_ida, valor_volta, pago)
+        // 4. confirmarPagamento(id_vp, novo_status) → abre modal_confirmacao para 1 registro
+        // 5. confirmarLote(novo_status) → abre modal_confirmacao para os selecionados
+        // 6. executarAlteracao() → faz o PUT/PATCH no banco (individual ou lote)
+        // 7. fecharConfirmacao() → fecha o modal_confirmacao
+        // 8. atualizarBarraLote() → conta os checks marcados e mostra/esconde barra_lote
+    </script>
 </body>
 
 </html>

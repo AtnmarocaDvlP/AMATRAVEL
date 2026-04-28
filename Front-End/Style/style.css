@@ -542,3 +542,292 @@ body {
     color: #1A1A18;
     cursor: pointer;
 }
+
+/* ===== HISTÓRICO DE VIAGENS ===== */
+
+/* --- Barra de Filtros --- */
+
+.filtros_container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 0 80px 20px 80px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e8e1d1;
+}
+
+.filtro_grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filtro_grupo label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8c7f66;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filtro_grupo input[type="date"],
+.filtro_grupo select {
+    padding: 9px 12px;
+    font-size: 15px;
+    border: 2px solid #d2c8b5;
+    border-radius: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    background-color: #ffffff;
+    color: #1A1A18;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 160px;
+}
+
+.filtro_grupo input[type="date"]:focus,
+.filtro_grupo select:focus {
+    outline: none;
+    border-color: #8c7f66;
+    box-shadow: 0 0 0 3px rgba(183, 174, 158, 0.3);
+}
+
+.filtro_grupo select {
+    min-width: 180px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238c7f66' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.filtro_trechos {
+    display: flex;
+    gap: 10px;
+}
+
+.btn_buscar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    background-color: #1A1A18;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+    height: 42px;
+}
+
+.btn_buscar:hover {
+    background-color: #333330;
+    box-shadow: 0 4px 14px rgba(26, 26, 24, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn_buscar:active {
+    background-color: #0d0d0c;
+    transform: translateY(0);
+}
+
+/* --- Container de Resultados --- */
+
+#Conteudo_Historico {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 80px;
+}
+
+/* --- Linha Individual de Registro (por pessoa) --- */
+
+.historico_linha {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #ffffff;
+    border: 1.5px solid #d2c8b5;
+    border-radius: 10px;
+    padding: 18px 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.historico_linha:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    border-color: #b7ae9e;
+}
+
+/* Bloco de informações: nome + badges de trecho */
+.historico_info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.historico_nome {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #1A1A18;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.historico_badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Bloco de data */
+.historico_data {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.historico_data_texto {
+    font-size: 14px;
+    font-weight: 500;
+    color: #727269;
+    white-space: nowrap;
+    background-color: #f7f2e6;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid #e8e1d1;
+}
+
+/* Bloco de status de pagamento */
+.historico_pagamento {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Botão de status (base) */
+.btn_status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1.5px solid;
+    white-space: nowrap;
+}
+
+/* Status: Pago */
+.btn_pago {
+    background-color: #e9f2eb;
+    color: #3b6644;
+    border-color: #b5d4be;
+}
+
+.btn_pago:hover {
+    background-color: #d4e8d9;
+    box-shadow: 0 3px 10px rgba(59, 102, 68, 0.15);
+}
+
+/* Status: Pendente */
+.btn_pendente {
+    background-color: #fdf4e7;
+    color: #8a6d2b;
+    border-color: #e5cc8a;
+}
+
+.btn_pendente:hover {
+    background-color: #f8ebd4;
+    box-shadow: 0 3px 10px rgba(138, 109, 43, 0.15);
+}
+
+/* --- Estado Vazio --- */
+
+.historico_vazio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+}
+
+.historico_vazio p {
+    font-size: 16px;
+    color: #a09a8c;
+    font-weight: 500;
+    background-color: #ffffff;
+    padding: 24px 40px;
+    border: 2px dashed #d2c8b5;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* --- Responsivo do Histórico --- */
+
+@media (max-width: 640px) {
+    .filtros_container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 20px 20px 20px;
+        gap: 12px;
+    }
+
+    .filtro_grupo input[type="date"],
+    .filtro_grupo select {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .filtro_trechos {
+        width: 100%;
+    }
+
+    .btn_buscar {
+        width: 100%;
+    }
+
+    #Conteudo_Historico {
+        padding: 10px 20px;
+    }
+
+    .historico_linha {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 18px;
+    }
+
+    .historico_data {
+        width: 100%;
+    }
+
+    .historico_pagamento {
+        width: 100%;
+    }
+
+    .btn_status {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .historico_vazio {
+        padding: 40px 20px;
+    }
+
+    .historico_vazio p {
+        padding: 20px;
+    }
+}
