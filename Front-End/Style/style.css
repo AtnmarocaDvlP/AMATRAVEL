@@ -831,3 +831,111 @@ body {
         padding: 20px;
     }
 }
+
+/* --- Checkbox de seleção na linha --- */
+
+.historico_check {
+    width: 18px;
+    height: 18px;
+    accent-color: #3b6644;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* --- Barra de Ação em Lote (fixa no rodapé) --- */
+
+.barra_lote {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 14px 30px;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 2px solid #d2c8b5;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 90;
+    animation: barraEntrada 0.25s ease;
+}
+
+@keyframes barraEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lote_contagem {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A18;
+}
+
+.btn_lote {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1.5px solid;
+}
+
+.btn_lote_pago {
+    background-color: #e9f2eb;
+    color: #3b6644;
+    border-color: #b5d4be;
+}
+
+.btn_lote_pago:hover {
+    background-color: #d4e8d9;
+    box-shadow: 0 3px 10px rgba(59, 102, 68, 0.15);
+}
+
+.btn_lote_pendente {
+    background-color: #fdf4e7;
+    color: #8a6d2b;
+    border-color: #e5cc8a;
+}
+
+.btn_lote_pendente:hover {
+    background-color: #f8ebd4;
+    box-shadow: 0 3px 10px rgba(138, 109, 43, 0.15);
+}
+
+/* --- Texto do Modal de Confirmação --- */
+
+.confirmacao_texto {
+    font-size: 16px;
+    color: #727269;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* --- Responsivo: Barra de Lote --- */
+
+@media (max-width: 640px) {
+    .barra_lote {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 20px;
+    }
+
+    .btn_lote {
+        width: 100%;
+        justify-content: center;
+    }
+}
