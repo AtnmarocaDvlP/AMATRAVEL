@@ -78,8 +78,9 @@ app.delete("/pessoas/:id", (req, res) => {
 })
 
 //-----------------------//--------------------------//---------------------//
-
+//---- Registro HTML ----//
 app.get("/viagens", (req, res) => {
+    // pega as informações que estão no cadastro de viagens com essa query
     db.query(`
             SELECT
             v.id AS id_viagem,
@@ -99,7 +100,7 @@ app.get("/viagens", (req, res) => {
 });
 
 
-
+// injeta no banco as informações que foram escritas no modal de registro de viagens
 
 app.post("/viagens", (req, res) => {
     const { data_viagem, ida, volta, ids_passageiros } = req.body;
@@ -123,6 +124,7 @@ app.post("/viagens", (req, res) => {
     );
 })
 
+// opção de deletar viagens
 app.delete("/viagens/:id", (req, res) => {
     db.query(
         "UPDATE viagens SET ativo = 0 WHERE id = ?",
@@ -132,4 +134,55 @@ app.delete("/viagens/:id", (req, res) => {
             res.json({ sucesso: true });
         }
     );
+})
+
+
+//----------------------//-------------------//----------------------//
+// Histórico HTML //
+
+
+
+app.get("/historico", (req, res) => {
+    // criação das variaveis que vão ser usadas para os Filtros
+    const {
+        data_inicio,
+        data_fim,
+        pessoa_id,
+        ida,
+        volta
+    } = req.query;
+
+    let query = `    
+        SELECT
+        vp.id AS id_viagem_passageiro,
+        p.nome AS nome_passageiro,
+        v.data_viagem,
+        v.ida,
+        v.volta,
+        p.valor_ida,
+        p.valor_volta,
+        vp.pago
+        FROM viagem_passageiro vp
+
+        JOIN pessoa p ON vp.pessoa_id = p.id
+
+        JOIN viagens v ON vp.viagem_id = v.id
+
+        WHERE V.ATIVO = 1`;
+
+    let valores = [];
+
+    if (pessoa_id) {
+        query += " AND vp.pessoa_id = ?";
+        valores.push(pessoa_id);
+
+    } if (data_inicio) {
+        query += " AND v.data_viagem >= ?"
+        valores.push(data_inicio);
+
+    } if (data_fim) {
+        query += " AND v.data_viagem <= ?"
+        valores.push(data_fim);
+
+    }
 })
