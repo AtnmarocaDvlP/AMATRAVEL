@@ -172,6 +172,37 @@
     </div>
 
     <script>
+        // criacao da function de variavel 
+        async function Buscar_historico() {
+            const DataInicio = document.getElementById('filtro_data_inicio').value;
+            const DataFim = document.getElementById('filtro_data_fim').value;
+            const Pessoa_id = document.getElementById('filtro_pessoa').value;
+            const Ida = document.getElementById('filtro_ida').checked ? 1 : 0;
+            const Volta = document.getElementById('filtro_volta').checked ? 1 : 0;
+
+            // usa do metodo de URL para associal diretamente as variaveis, esse if serve para caso seja preenchido o campo 
+            // as variaveis da function v'ao ser associadas automaticamente as variaveis do server.js que tambem possuem seus If para adicionar
+            //  informacoes na query do sql
+            let url = new URL('/historico', window.location.origin);
+
+            if (DataInicio) url.searchParams.append('data_inicio', DataInicio);
+            if (DataFim) url.searchParams.append('data_fim', DataFim);
+            if (Pessoa_id) url.searchParams.append('pessoa_id', Pessoa_id);
+            if (Ida) url.searchParams.append('ida', Ida);
+            if (Volta) url.searchParams.append('volta', Volta);
+
+            try {
+                // pedido para o servidor
+                const resposta = await fetch(url);
+
+
+                // formatacao das informacoes para dados utilizaveis
+                const dados = await resposta.json();
+            } catch (erro) {
+                console.error("erro ao buscar informacoes: ", erro);
+            }
+
+        }
         // 1. carregarFiltros() → popula o select filtro_pessoa com fetch("/pessoas")
         // 2. buscarHistorico() → lê os filtros, faz fetch, chama criarLinhaHistorico()
         // 3. criarLinhaHistorico(id_vp, nome, data, ida, volta, valor_ida, valor_volta, pago)
