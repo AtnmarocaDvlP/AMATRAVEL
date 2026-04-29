@@ -198,10 +198,30 @@
 
                 // formatacao das informacoes para dados utilizaveis
                 const dados = await resposta.json();
+
+                const container = document.getElementById('Conteudo_Historico');
+                container.innerHTML = ''
+                // vai limpar os cards antes de por novos
+
+                if (dados.length === 0) {
+                    document.getElementById('Historico_vazio').style.display = 'flex';
+                } else {
+                    document.getElementById('Historico_vazio').style.display = 'none';
+                }
+
+                dados.forEach(viagem => {
+                    const card = criarLinhaHistorico(viagem);
+                    container.appendChild(card);
+                });
+
             } catch (erro) {
                 console.error("erro ao buscar informacoes: ", erro);
             }
 
+        }
+
+        async function criarLinhaHistorico(viagem) {
+            const data_inicio
         }
         // 1. carregarFiltros() → popula o select filtro_pessoa com fetch("/pessoas")
         // 2. buscarHistorico() → lê os filtros, faz fetch, chama criarLinhaHistorico()
