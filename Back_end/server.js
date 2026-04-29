@@ -202,5 +202,5 @@ app.get("/historico", (req, res) => {
         res.json(resultado);
     });
 
-
+    //teste
 })
