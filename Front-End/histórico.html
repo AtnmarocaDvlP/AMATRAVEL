@@ -224,6 +224,21 @@
             const data_inicio
         }
         // 1. carregarFiltros() → popula o select filtro_pessoa com fetch("/pessoas")
+        async function carregarFiltros() {
+            const resposta = await fetch("/pessoas");
+            const pessoas = await resposta.json();
+            const select = document.getElementById("filtro_pessoa");
+
+            pessoas.forEach(p => {
+                const option = document.createElement("option");
+                option.value = p.id;       // valor que vai para o filtro da busca
+                option.textContent = p.nome; // nome que aparece na tela
+                select.appendChild(option);
+            });
+        }
+
+        // chama carregarFiltros assim que a página terminar de carregar
+        document.addEventListener("DOMContentLoaded", carregarFiltros);
         // 2. buscarHistorico() → lê os filtros, faz fetch, chama criarLinhaHistorico()
         // 3. criarLinhaHistorico(id_vp, nome, data, ida, volta, valor_ida, valor_volta, pago)
         // 4. confirmarPagamento(id_vp, novo_status) → abre modal_confirmacao para 1 registro
