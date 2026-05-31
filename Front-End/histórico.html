@@ -217,31 +217,117 @@
 
         // 3. criarLinhaHistorico(viagem) → monta o HTML de cada linha do histórico
         function criarLinhaHistorico(viagem) {
-            // implementação na próxima etapa
-        }
-        // 1. carregarFiltros() → popula o select filtro_pessoa com fetch("/pessoas")
-        async function carregarFiltros() {
-            const resposta = await fetch("/pessoas");
-            const pessoas = await resposta.json();
-            const select = document.getElementById("filtro_pessoa");
+            // formata a data de YYYY-MM-DD para DD/MM/YYYY
+            const dataFormatada = new Date(viagem.data_viagem).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
-            pessoas.forEach(p => {
-                const option = document.createElement("option");
-                option.value = p.id;       // valor que vai para o filtro da busca
-                option.textContent = p.nome; // nome que aparece na tela
-                select.appendChild(option);
-            });
+            // monta os badges de valor conforme os trechos da viagem
+            let badges = '';
+            if (viagem.ida)   badges += `<span class="badge badge-ida">Ida: R$ ${parseFloat(viagem.valor_ida).toFixed(2)}</span>`;
+            if (viagem.volta) badges += `<span class="badge badge-volta">Volta: R$ ${parseFloat(viagem.valor_volta).toFixed(2)}</span>`;
+
+            // define o texto e classe do botão conforme status de pagamento
+            const btnTexto  = viagem.pago ? '✅ Pago'      : '⏳ Pendente';
+            const btnClasse = viagem.pago ? 'btn_pago'     : 'btn_pendente';
+            const novoStatus = viagem.pago ? 0 : 1; // inverso do atual (para alternar ao clicar)
+
+            // cria o elemento div da linha
+            const div = document.createElement('div');
+            div.className = 'historico_linha';
+            div.innerHTML = `
+                <input type="checkbox" class="historico_check" value="${viagem.id_viagem_passageiro}">
+                <div class="historico_info">
+                    <h3 class="historico_nome">${viagem.nome_passageiro}</h3>
+                    <div class="historico_badges">${badges}</div>
+                </div>
+                <div class="historico_data">
+                    <span class="historico_data_texto">📅 ${dataFormatada}</span>
+                </div>
+                <div class="historico_pagamento">
+                    <button class="btn_status ${btnClasse}"
+                        onclick="confirmarPagamento(${viagem.id_viagem_passageiro}, ${novoStatus})">
+                        ${btnTexto}
+                    </button>
+                </div>
+            `;
+
+            // quando o checkbox mudar, atualiza a barra de lote
+            div.querySelector('.historico_check').addEventListener('change', atualizarBarraLote);
+            return div;
+        }
+
+        // --- Estado interno: guarda o que será alterado ao confirmar no modal ---
+        let _pendente_ids    = [];  // ids que serão alterados
+        let _pendente_status = null; // novo valor de pago (0 ou 1)
+
+        // 4. confirmarPagamento(id_vp, novo_status) → abre modal para 1 registro
+        function confirmarPagamento(id_vp, novo_status) {
+            _pendente_ids    = [id_vp];
+            _pendente_status = novo_status;
+
+            const texto = novo_status === 1
+                ? 'Deseja marcar este registro como Pago?'
+                : 'Deseja marcar este registro como Pendente?';
+
+            document.getElementById('confirmacao_texto').textContent = texto;
+            document.getElementById('modal_confirmacao').style.display = 'flex';
+        }
+
+        // 5. confirmarLote(novo_status) → abre modal para todos os selecionados
+        function confirmarLote(novo_status) {
+            const checks = document.querySelectorAll('.historico_check:checked');
+            _pendente_ids    = Array.from(checks).map(cb => cb.value);
+            _pendente_status = novo_status;
+
+            const acao  = novo_status === 1 ? 'Pago' : 'Pendente';
+            const texto = `Deseja marcar ${_pendente_ids.length} registro(s) como ${acao}?`;
+
+            document.getElementById('confirmacao_texto').textContent = texto;
+            document.getElementById('modal_confirmacao').style.display = 'flex';
+        }
+
+        // 6. executarAlteracao() → faz o PUT no servidor para cada id pendente
+        async function executarAlteracao() {
+            try {
+                // faz um PUT para cada id selecionado
+                const promessas = _pendente_ids.map(id =>
+                    fetch(`/historico/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ pago: _pendente_status })
+                    })
+                );
+                await Promise.all(promessas); // espera todos os PUTs terminarem
+
+                fecharConfirmacao();
+                buscarHistorico(); // recarrega a lista com os dados atualizados
+            } catch (erro) {
+                console.error('Erro ao alterar status:', erro);
+            }
+        }
+
+        // 7. fecharConfirmacao() → fecha o modal e limpa o estado interno
+        function fecharConfirmacao() {
+            document.getElementById('modal_confirmacao').style.display = 'none';
+            _pendente_ids    = [];
+            _pendente_status = null;
+        }
+
+        // 8. atualizarBarraLote() → mostra/esconde a barra de ações em lote
+        function atualizarBarraLote() {
+            const checks   = document.querySelectorAll('.historico_check:checked');
+            const barra    = document.getElementById('barra_lote');
+            const contagem = document.getElementById('lote_contagem');
+
+            if (checks.length > 0) {
+                barra.style.display = 'flex';
+                contagem.textContent = `${checks.length} selecionado(s)`;
+            } else {
+                barra.style.display = 'none';
+            }
         }
 
         // chama carregarFiltros assim que a página terminar de carregar
         document.addEventListener("DOMContentLoaded", carregarFiltros);
-
-        // 3. criarLinhaHistorico(id_vp, nome, data, ida, volta, valor_ida, valor_volta, pago)
-        // 4. confirmarPagamento(id_vp, novo_status) → abre modal_confirmacao para 1 registro
-        // 5. confirmarLote(novo_status) → abre modal_confirmacao para os selecionados
-        // 6. executarAlteracao() → faz o PUT/PATCH no banco (individual ou lote)
-        // 7. fecharConfirmacao() → fecha o modal_confirmacao
-        // 8. atualizarBarraLote() → conta os checks marcados e mostra/esconde barra_lote
     </script>
 </body>
 
