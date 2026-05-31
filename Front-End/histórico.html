@@ -73,68 +73,9 @@
         <button class="btn_buscar" id="btn_buscar" onclick="buscarHistorico()">🔍 Buscar</button>
     </div>
 
-    <!-- ÁREA DE RESULTADOS -->
-    <!-- // CONTAINER: Conteudo_Historico -->
-    <div id="Conteudo_Historico">
+    <!-- ÁREA DE RESULTADOS — populada dinamicamente pelo JS -->
+    <div id="Conteudo_Historico"></div>
 
-        <!-- EXEMPLO DE LINHA GERADA PELO JS (função sugerida: criarLinhaHistorico) -->
-        <!-- O JS deve criar essas divs dinamicamente, esses são só exemplos visuais -->
-
-        <!-- Exemplo 1: passageiro com ida e volta, pendente -->
-        <div class="historico_linha">
-            <!-- // checkbox para seleção em lote, value = id_viagem_passageiro -->
-            <input type="checkbox" class="historico_check" value="1">
-            <div class="historico_info">
-                <h3 class="historico_nome">João Silva</h3>
-                <div class="historico_badges">
-                    <span class="badge badge-ida">Ida: R$ 15.00</span>
-                    <span class="badge badge-volta">Volta: R$ 12.00</span>
-                </div>
-            </div>
-            <div class="historico_data">
-                <span class="historico_data_texto">📅 28/04/2026</span>
-            </div>
-            <div class="historico_pagamento">
-                <!-- // funcao_confirmar_pagamento → abre o modal de confirmação -->
-                <button class="btn_status btn_pendente" onclick="confirmarPagamento(1, 1)">⏳ Pendente</button>
-            </div>
-        </div>
-
-        <!-- Exemplo 2: passageiro só ida, pago -->
-        <div class="historico_linha">
-            <input type="checkbox" class="historico_check" value="2">
-            <div class="historico_info">
-                <h3 class="historico_nome">Maria Oliveira</h3>
-                <div class="historico_badges">
-                    <span class="badge badge-ida">Ida: R$ 20.00</span>
-                </div>
-            </div>
-            <div class="historico_data">
-                <span class="historico_data_texto">📅 27/04/2026</span>
-            </div>
-            <div class="historico_pagamento">
-                <button class="btn_status btn_pago" onclick="confirmarPagamento(2, 0)">✅ Pago</button>
-            </div>
-        </div>
-
-        <!-- Exemplo 3: passageiro só volta, pendente -->
-        <div class="historico_linha">
-            <input type="checkbox" class="historico_check" value="3">
-            <div class="historico_info">
-                <h3 class="historico_nome">Carlos Santos</h3>
-                <div class="historico_badges">
-                    <span class="badge badge-volta">Volta: R$ 18.00</span>
-                </div>
-            </div>
-            <div class="historico_data">
-                <span class="historico_data_texto">📅 26/04/2026</span>
-            </div>
-            <div class="historico_pagamento">
-                <button class="btn_status btn_pendente" onclick="confirmarPagamento(3, 1)">⏳ Pendente</button>
-            </div>
-        </div>
-
-    </div>
 
     <!-- BARRA DE AÇÃO EM LOTE -->
     <!-- // O JS mostra essa barra quando algum checkbox .historico_check está marcado -->
